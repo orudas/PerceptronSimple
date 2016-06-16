@@ -1,0 +1,111 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+using Microsoft.VisualBasic.Compatibility;
+
+namespace WpfApplication1
+{
+
+
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml
+    /// </summary>
+    public partial class MainWindow : Window
+    {
+       /* String x1;
+        String x2;
+        int x1i;
+        int x2i;
+        String datos;
+        int entra;*/
+
+        public static double RecalcularPesos(double pesoj, double ti, double xi)
+        {
+            double wj = pesoj + 0.5 + ti + xi;
+            return (wj);
+        }
+        public MainWindow()
+        {
+            InitializeComponent();
+            //Declaracion de Pesos
+            double[] pesos = { 0.0, 0.0, 0.0 };
+            //Creacion de Pesos Aleatorios
+            Random random = new Random();
+
+            //pesos[0] = 0.2871;
+            //pesos[1] = 0.5746;
+            //pesos[2] = 0.7228;
+
+            for (int j = 0; j < pesos.Length; j++)
+             {
+                //pesos[j] = random.NextDouble();
+                var rand = random.Next(0, 1);
+                pesos[j] = rand;
+                Console.WriteLine("pesos" + j + "=" + pesos[j]);
+
+             }
+           
+
+            Console.WriteLine("******************************************");
+
+            //Salidas que debe aprender
+            double[] salidas = { 1, 1, 1, -1 };
+
+            double[][] entradas = { new double[] { 1, 1, -1 }, new double[] { 1, -1, -1 }, new double[] { -1, 1, -1 }, new double[] { -1, -1, -1 } };
+            double yi = 0;
+            int i = 0;
+
+            while (i < entradas.Length)
+            {
+                yi = pesos[0] * entradas[i][0] + pesos[1] * entradas[i][1] + pesos[2] * entradas[i][2];
+                if (yi >= 0) { yi = 1; } else { yi = -1; }
+                if (yi == salidas[i])
+                {
+                    Console.WriteLine("Entrada * (" + entradas[i][0] + "), (" + entradas[i][1] + ") Salida (" + salidas[i] + ") Calculada (Si) " + yi);
+                }
+                else
+                {
+                    Console.WriteLine("Entrada * (" + entradas[i][0] + "), (" + entradas[i][1] + ") Salida (" + salidas[i] + ") Calculada (No) " + yi);
+                    Console.WriteLine("***************Correccion de Pesos*************************");
+                    for (int k = 0; k < pesos.Length; k++)
+                    {
+                        pesos[k] = RecalcularPesos(pesos[k], salidas[i], entradas[i][k]);
+                        Console.WriteLine(pesos[k]);
+                    }//for
+                    Console.WriteLine("**********************************");
+                    i = -1;//para que empiece el programa de nuevo
+                }//else
+                i++;
+
+            }//while
+
+            Console.WriteLine("Finaliza calculo de Pesos");
+        }
+
+       
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            return;
+        }
+
+   /*     private void textBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            datos = textBox.Text;
+            entra = Convert.ToInt32(datos);
+        }*/
+      
+    }
+
+}
+    
